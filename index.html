@@ -1,0 +1,490 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>💘 For My Favorite Person</title>
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+
+  <style>
+
+    :root{
+
+      --card: rgba(255,255,255,0.80);
+
+      --shadow: 0 24px 70px rgba(0,0,0,0.18);
+
+      --radius: 28px;
+
+      --text: #1b1b1f;
+
+      --muted: rgba(27,27,31,0.65);
+
+      --yes1:#ff3b7a; --yes2:#ff7aa8;
+
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{height:100%}
+
+    body{
+
+      margin:0; overflow:hidden;
+
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+      color:var(--text);
+
+      background:
+
+        radial-gradient(1200px 700px at 15% 20%, #ffdde1, transparent 60%),
+
+        radial-gradient(1200px 700px at 85% 80%, #ee9ca7, transparent 60%),
+
+        linear-gradient(135deg, #fff0f4, #ffe7ee);
+
+    }
+
+
+    .wrap{height:100%; display:grid; place-items:center; padding:28px;}
+
+    .card{
+
+      width:min(860px,96vw);
+
+      background:var(--card);
+
+      border:1px solid rgba(255,255,255,0.65);
+
+      border-radius:var(--radius);
+
+      box-shadow:var(--shadow);
+
+      backdrop-filter: blur(14px);
+
+      padding: clamp(20px, 4vw, 42px);
+
+      position:relative;
+
+      overflow:hidden;
+
+    }
+
+    .title{
+
+      font-family:"Great Vibes",cursive;
+
+      font-size: clamp(44px, 7vw, 84px);
+
+      margin:0 0 6px;
+
+    }
+
+    .subtitle{
+
+      margin:0 0 18px;
+
+      color:var(--muted);
+
+      line-height:1.5;
+
+      font-size: clamp(14px, 2vw, 18px);
+
+      max-width:60ch;
+
+    }
+
+
+    .stage{
+
+      display:grid;
+
+      grid-template-columns: 1.1fr 0.9fr;
+
+      gap: clamp(14px, 3vw, 26px);
+
+      align-items:center;
+
+    }
+
+    @media (max-width:780px){ .stage{grid-template-columns:1fr;} }
+
+
+    .poem{
+
+      margin: 10px 0 0;
+
+      padding: 16px 18px;
+
+      border-radius: 20px;
+
+      background: rgba(255,255,255,0.6);
+
+      border: 1px solid rgba(255,255,255,0.6);
+
+      line-height: 1.65;
+
+      font-size: 15px;
+
+    }
+
+    .poem b{color:#ff2f73;}
+
+
+    .arena{
+
+      position:relative;
+
+      height: 280px;
+
+      border-radius: 22px;
+
+      background: rgba(255,255,255,0.55);
+
+      border: 1px solid rgba(255,255,255,0.6);
+
+      overflow:hidden;
+
+      padding:18px;
+
+      display:grid;
+
+      align-content:start;
+
+      gap:12px;
+
+    }
+
+    .question{margin:0; font-weight:800; font-size:20px;}
+
+    .hint{margin:0; color:var(--muted); font-size:14px;}
+
+
+    .btn{
+
+      appearance:none; border:0;
+
+      border-radius:999px;
+
+      padding:14px 18px;
+
+      font-weight:800;
+
+      cursor:pointer;
+
+      box-shadow:0 16px 40px rgba(0,0,0,0.12);
+
+      transition: transform .12s ease, filter .12s ease;
+
+      user-select:none;
+
+    }
+
+    .btn:active{transform: translateY(1px) scale(0.99);}
+
+    .yes{
+
+      width:100%;
+
+      background: linear-gradient(135deg, var(--yes1), var(--yes2));
+
+      color:#fff;
+
+    }
+
+    .yes:hover{filter:brightness(1.05); transform: translateY(-1px);}
+
+    .no{
+
+      position:absolute;
+
+      left:18px;
+
+      top:160px;
+
+      width: calc(100% - 36px);
+
+      background: rgba(43,47,58,0.9);
+
+      color:#fff;
+
+    }
+
+
+    .overlay{
+
+      position:fixed; inset:0;
+
+      display:none; place-items:center;
+
+      background: rgba(10,10,14,0.35);
+
+      backdrop-filter: blur(6px);
+
+      padding:22px;
+
+    }
+
+    .overlay.show{display:grid;}
+
+    .modal{
+
+      width:min(720px,96vw);
+
+      background: rgba(255,255,255,0.92);
+
+      border-radius:28px;
+
+      box-shadow: 0 30px 90px rgba(0,0,0,0.25);
+
+      padding:28px;
+
+      text-align:center;
+
+      border:1px solid rgba(255,255,255,0.75);
+
+    }
+
+    .big{
+
+      font-family:"Great Vibes",cursive;
+
+      font-size: clamp(48px, 8vw, 86px);
+
+      margin: 10px 0 8px;
+
+      color:#ff2f73;
+
+    }
+
+    .modal h2{margin:6px 0 8px; font-size: clamp(26px, 3.6vw, 44px);}
+
+    .modal p{margin:0; color: rgba(27,27,31,0.72); font-size:16px; line-height:1.55;}
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <div class="wrap">
+
+    <div class="card">
+
+      <div class="stage">
+
+        <div>
+
+          <h1 class="title">Hey love… 💖</h1>
+
+          <p class="subtitle">
+
+            I made this little page just to ask you something in the cutest way I know.
+
+          </p>
+
+
+          <div class="poem">
+
+            If love was a function, you’re my favorite return.<br/>
+
+            If you were a bug, I’d never patch you (okay… maybe just a little 😄).<br/>
+
+            But if you were my <b>Valentine</b>… I’d choose you every time.
+
+          </div>
+
+        </div>
+
+
+        <div class="arena" id="arena">
+
+          <p class="question">Will you be my Valentine?</p>
+
+          <p class="hint" id="hint">I already know the answer 😌</p>
+
+
+          <button class="btn yes" id="yesBtn">Yes 💘</button>
+
+          <button class="btn no" id="noBtn">No 😅</button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="overlay" id="overlay" aria-live="polite">
+
+    <div class="modal">
+
+      <div class="big">YAY!</div>
+
+      <h2>My forever Valentine 🥹💖</h2>
+
+      <p>
+
+        Screenshot this and send it to me 😄<br/>
+
+        Now choose: dinner date or ice cream date?
+
+      </p>
+
+      <div style="margin-top:18px; display:grid; gap:10px;">
+
+        <button class="btn yes" id="closeBtn">Close ✨</button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    const arena = document.getElementById("arena");
+
+    const noBtn = document.getElementById("noBtn");
+
+    const yesBtn = document.getElementById("yesBtn");
+
+    const hint = document.getElementById("hint");
+
+    const overlay = document.getElementById("overlay");
+
+    const closeBtn = document.getElementById("closeBtn");
+
+
+    // Increase this to make it "basically impossible" in practice, but still technically accessible.
+
+    const maxDodges = 40; // try 80 or 120 if you want extra drama 😄
+
+    let dodges = 0;
+
+
+    function moveNoButton() {
+
+      const bounds = arena.getBoundingClientRect();
+
+      const btnBounds = noBtn.getBoundingClientRect();
+
+      const padding = 14;
+
+
+      const maxX = bounds.width - btnBounds.width - padding;
+
+      const maxY = bounds.height - btnBounds.height - padding;
+
+
+      const x = padding + Math.random() * Math.max(0, maxX - padding);
+
+      const y = Math.max(120, padding + Math.random() * Math.max(0, maxY - padding));
+
+
+      noBtn.style.left = x + "px";
+
+      noBtn.style.top = y + "px";
+
+    }
+
+
+    function updateHint() {
+
+      if (dodges < maxDodges) {
+
+        hint.textContent = `Nope 😌 (escape count: ${dodges}/${maxDodges})`;
+
+      } else {
+
+        hint.textContent = "Okay okay… I’ll behave now 😇";
+
+      }
+
+    }
+
+
+    // Runs away on hover / touch attempt UNTIL maxDodges
+
+    function tryDodge() {
+
+      if (dodges < maxDodges) {
+
+        dodges++;
+
+        moveNoButton();
+
+        updateHint();
+
+      }
+
+    }
+
+
+    noBtn.addEventListener("mouseenter", tryDodge);
+
+    noBtn.addEventListener("touchstart", (e) => {
+
+      // On mobile, prevent accidental tap while it's still dodging
+
+      if (dodges < maxDodges) e.preventDefault();
+
+      tryDodge();
+
+    }, { passive: false });
+
+
+    // After it has dodged enough, it becomes a real clickable "No"
+
+    noBtn.addEventListener("click", () => {
+
+      if (dodges < maxDodges) return; // still dodging
+
+      alert("Okay fair 😄 But you still owe me a hug.");
+
+    });
+
+
+    yesBtn.addEventListener("click", () => {
+
+      overlay.classList.add("show");
+
+    });
+
+    closeBtn.addEventListener("click", () => {
+
+      overlay.classList.remove("show");
+
+    });
+
+
+    // Initial placement
+
+    moveNoButton();
+
+    updateHint();
+
+  </script>
+
+</body>
+
+</html>
